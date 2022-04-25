@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pokemon</title>
+</head>
+<body>
+    <nav>
+        <input type="text" name="" id="search">
+        <button onclick='doSearch()'>search</button>
+    </nav>
+
+    <div class="main"></div>
+
+    <script>
+        let main = document.querySelector(".main");
+        
+
+        function doSearch() {
+            
+        }
+
+
+        function display(data) {
+            console.log(data, "da")
+            var content = document.createElement("table")
+            let tdata = document.createElement("th")
+            tdata.innerText = "Pokemons";
+            content.appendChild(tdata)
+            data.forEach(element => {
+                let tRow = document.createElement("tr");
+                tRow.textContent = element.name
+                content.append(tRow)
+            });
+            main.append(content)
+            console.dir(main)
+        }
+
+        function getdata() {
+            if (localStorage.getItem("pokemons")) {
+                display(JSON.parse(localStorage.getItem("pokemons")))
+            } else {
+                const url = `https://pokeapi.co/api/v2/pokemon`
+                fetch(url).then(res=>res.json()).then(data=>{
+                    console.log("fetching")
+                    localStorage.setItem("pokemons", JSON.stringify(data.results));
+                    display(data.results)
+                })
+
+            }
+            
+        }
+        getdata()
+        // main.innerHTML = 
+    </script>
+</body>
+</html>
