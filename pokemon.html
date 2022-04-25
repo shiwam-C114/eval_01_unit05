@@ -8,20 +8,40 @@
 </head>
 <body>
     <nav>
-        <input type="text" name="" id="search">
+        <input type="text" id="searchBox">
         <button onclick='doSearch()'>search</button>
+        <div id="res"></div>
     </nav>
 
     <div class="main"></div>
 
     <script>
         let main = document.querySelector(".main");
-        
 
         function doSearch() {
-            
+            let searchBox = document.getElementById("searchBox")
+            let res = document.getElementById("res")
+            let Div = document.createElement("div")
+            Div.style = 'border: red 2px solid'
+            let H1 = document.createElement("h1")
+            let Id = document.createElement("p")
+            let H = document.createElement("p")
+            let W = document.createElement("p")
+            let M = document.createElement("p")
+            let A = document.createElement("p")
+            fetch(`https://pokeapi.co/api/v2/pokemon/${searchBox.value}`).then(res=>res.json()).then(data=>{
+                console.log(data)
+                H1.innerHTML = `Name: ${data.name}`
+                Id.innerHTML = `ID: ${data.id}`
+                H.innerText = `Height: ${data.height}`
+                W.innerText = `Weight: ${data.weight}`
+                A.innerText = `Abilities: ${data.abilities.map((e)=>` ${e.ability.name}`)}`
+                M.innerText = `Moves: ${data.moves.map((e)=>` ${e.move.name}`)}`
+                Div.append(H1, Id, H, W, A, M)
+                res.appendChild(Div)
+                
+            })
         }
-
 
         function display(data) {
             console.log(data, "da")
